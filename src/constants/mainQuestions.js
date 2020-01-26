@@ -43,7 +43,7 @@ const mainQuestions = [
     label: 'Email',
     text: "What's your email?",
     type: 'number',
-    validation: 'email',
+    validations: ['email'],
     required: true,
   },
 ];

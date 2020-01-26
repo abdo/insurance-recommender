@@ -1,5 +1,11 @@
 @import './vars';
 
+$breakpoints: (
+  phone: 640px,
+  tablet: 768px,
+  desktop: 1024px,
+) !default;
+
 .pageContainer {
   padding: 20px 80px;
   background-color: $white-color;
@@ -10,9 +16,16 @@
   flex-direction: column;
 }
 
+@media (max-width: $phone-width) {
+  .pageContainer {
+    padding: 20px;
+  }
+}
+
 .mainTextInput {
   height: 62px;
   width: 50%;
+  min-width: 300px;
   padding: 5px 15px;
   margin: 20px 0;
   outline: none;
@@ -33,10 +46,15 @@
   color: $white-color;
   transition: all 0.3s;
   box-shadow: 0.5px 0.5px 1px $gray-color;
-  background-color: $main-color;
+  background-color: $light-gray-color;
+  cursor: not-allowed;
 
-  &:hover {
-    box-shadow: 5px 10px 10px $gray-color;
+  &:not([disabled]) {
+    background-color: $main-color;
+    cursor: default;
+    &:hover {
+      box-shadow: 5px 10px 10px $gray-color;
+    }
   }
 
   &:active {
