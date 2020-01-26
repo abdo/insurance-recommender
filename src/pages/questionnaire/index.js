@@ -69,7 +69,7 @@ const Questionnaire = ({ sendData, fetchRecommendations, history }) => {
   };
   const onSubmit = () => {
     const { childrenPossession, numberOfChildren, ...userData } = answers;
-    userData.numberOfChildren = numberOfChildren || 0;
+    userData.numberOfChildren = Number(numberOfChildren) || 0;
 
     const afterSendingUserData = () => {
       fetchRecommendations();

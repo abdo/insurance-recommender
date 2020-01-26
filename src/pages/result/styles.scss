@@ -1,0 +1,19 @@
+@import '../../styles/vars';
+
+.recommendation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 60%;
+  margin: 15px auto;
+  border: 1px solid $light-gray-color;
+  padding: 20px;
+
+  .recommendationType {
+    text-transform: capitalize;
+  }
+
+  .recommendationPrice {
+    text-transform: lowercase;
+  }
+}

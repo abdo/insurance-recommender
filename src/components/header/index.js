@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import React from 'react';
 
 import './styles.scss';
@@ -11,7 +12,9 @@ const Header = () => {
   return (
     <header className='header'>
       {paperEmoji}
-      <p>Insurance Recommender</p>
+      <Link to="/">
+        <p>Insurance Recommender</p>
+      </Link>
       {paperEmoji}
     </header>
   );

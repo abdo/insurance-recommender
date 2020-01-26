@@ -1,7 +1,7 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const INITIAL_STATE = {
-  recommendations: [],
+  insuranceTypes: null,
   isFetchingRecommendations: false,
   isSendingData: false,
   hasRequestError: false,
@@ -19,7 +19,7 @@ export default (state = INITIAL_STATE, action) => {
     case actionTypes.FETCH_RECOMMENDATIONS_END:
       return {
         ...state,
-        recommendations: action.payload || [],
+        insuranceTypes: action.payload || [],
         isFetchingRecommendations: false,
         hasRequestError: false,
       };

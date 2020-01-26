@@ -1,7 +1,33 @@
+import { connect } from 'react-redux';
 import React from 'react';
 
-const Result = () => {
-  return <p>Result</p>;
+import './styles.scss';
+
+const Result = ({ insuranceTypes, history }) => {
+  console.log(insuranceTypes);
+  if (!insuranceTypes) {
+    history.push('/');
+    return null;
+  }
+
+  return (
+    <>
+      {insuranceTypes.map(({ type, price: { amount, periodicity } }) => (
+        <div className='recommendation' key={type}>
+          <div className='recommendationType'>
+            {type.replace('_', ' ').toLowerCase()}
+          </div>
+          <div className='recommendationPrice'>
+            €{amount} per {periodicity}
+          </div>
+        </div>
+      ))}
+    </>
+  );
 };
 
-export default Result;
+const mapStateToProps = (state) => ({
+  insuranceTypes: state.recommendations.insuranceTypes,
+});
+
+export default connect(mapStateToProps)(Result);
