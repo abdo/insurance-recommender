@@ -31,6 +31,7 @@ const mainQuestions = [
     key: 'childrenNumber',
     text: 'How many children do you have?',
     type: 'number',
+    dependencies: ['childrenPossession'],
   },
   {
     key: 'email',
