@@ -1,0 +1,46 @@
+@import './vars';
+
+.pageContainer {
+  padding: 20px 80px;
+  background-color: $white-color;
+  min-height: 90vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.mainTextInput {
+  height: 62px;
+  width: 50%;
+  padding: 5px 15px;
+  margin: 20px 0;
+  outline: none;
+  border-radius: 8px;
+  border: 1px solid $gray-color;
+  font-size: $main-font-size;
+}
+
+.mainButton {
+  height: 62px;
+  padding: 5px 18px;
+  margin: 20px 0;
+  outline: none;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: $main-font-size;
+  color: $white-color;
+  transition: all 0.3s;
+  box-shadow: 0.5px 0.5px 1px $gray-color;
+  background-color: $main-color;
+
+  &:hover {
+    box-shadow: 5px 10px 10px $gray-color;
+  }
+
+  &:active {
+    box-shadow: 0 2px 10px $gray-color;
+    transform: translateY(4px);
+  }
+}
