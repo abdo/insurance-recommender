@@ -1,12 +1,14 @@
+import { connect } from 'react-redux';
 import React, { useState } from 'react';
 
+import * as RecommendationActions from '../../store/actions/recommendationActions';
 import isEmail from '../../helpers/isEmail';
 import mainQuestions from '../../constants/mainQuestions';
 
 import '../../styles/_global.scss';
 import './styles.scss';
 
-const Questionnaire = () => {
+const Questionnaire = ({ sendData, fetchRecommendations, history }) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState(
     Object.assign(...mainQuestions.map((question) => ({ [question.key]: '' }))),
@@ -65,7 +67,17 @@ const Questionnaire = () => {
 
     setCurrentQuestionIndex(nextQuestionIndex);
   };
-  const onSubmit = () => {};
+  const onSubmit = () => {
+    const { childrenPossession, numberOfChildren, ...userData } = answers;
+    userData.numberOfChildren = numberOfChildren || 0;
+
+    const afterSendingUserData = () => {
+      fetchRecommendations();
+      history.push('/result');
+    };
+
+    sendData(userData, afterSendingUserData);
+  };
   const onClickActionButton = isLastQuestion ? onSubmit : onNext;
 
   const getInput = () => {
@@ -115,4 +127,9 @@ const Questionnaire = () => {
   );
 };
 
-export default Questionnaire;
+const mapDispatchToProps = {
+  sendData: RecommendationActions.sendData,
+  fetchRecommendations: RecommendationActions.fetchRecommendations,
+};
+
+export default connect(null, mapDispatchToProps)(Questionnaire);

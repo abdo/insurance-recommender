@@ -6,12 +6,14 @@ const mainQuestions = [
     label: 'First Name',
     text: "What's your first name?",
     type: 'text',
+    required: true,
   },
   {
     key: 'address',
     label: 'Address',
     text: "What's your address?",
     type: 'text',
+    required: true,
   },
   {
     key: 'occupation',
@@ -30,13 +32,15 @@ const mainQuestions = [
       { label: 'Yes', value: true },
       { label: 'No', value: false },
     ],
+    required: true,
   },
   {
-    key: 'childrenNumber',
+    key: 'numberOfChildren',
     label: 'Number of children',
     text: 'How many children do you have?',
     type: 'number',
     dependency: 'childrenPossession',
+    required: true,
   },
   {
     key: 'email',
