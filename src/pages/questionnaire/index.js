@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import * as RecommendationActions from '../../store/actions/recommendationActions';
 import isEmail from '../../helpers/isEmail';
@@ -8,11 +8,29 @@ import mainQuestions from '../../constants/mainQuestions';
 import '../../styles/_global.scss';
 import './styles.scss';
 
+import {
+  savedAnswersName,
+  savedQuestionIndexName,
+} from '../../constants/localStorageNames';
+
 const Questionnaire = ({ sendData, fetchRecommendations, history }) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState(
     Object.assign(...mainQuestions.map((question) => ({ [question.key]: '' }))),
   );
+
+  useEffect(() => {
+    // From local storage, get user answers and current question index
+    const savedUserAnswers = localStorage.getItem(savedAnswersName);
+    const savedQuestionIndex = localStorage.getItem(savedQuestionIndexName);
+
+    if (savedUserAnswers) {
+      setAnswers(JSON.parse(savedUserAnswers));
+    }
+    if (savedQuestionIndex) {
+      setCurrentQuestionIndex(Number(savedQuestionIndex));
+    }
+  }, []);
 
   const currentQuestion = mainQuestions[currentQuestionIndex];
   const {
@@ -47,7 +65,7 @@ const Questionnaire = ({ sendData, fetchRecommendations, history }) => {
 
   const isLastQuestion = currentQuestionIndex === mainQuestions.length - 1;
   const actionButtonText = isLastQuestion ? 'Submit' : 'Next';
-  const onNext = ({ steps = 1 }) => {
+  const onClickNext = ({ steps = 1 }) => {
     if (!isValidInput()) {
       return;
     }
@@ -61,13 +79,17 @@ const Questionnaire = ({ sendData, fetchRecommendations, history }) => {
       nextQuestionDependency &&
       (!dependencyAnswer || dependencyAnswer === 'false')
     ) {
-      onNext({ steps: steps + 1 });
+      onClickNext({ steps: steps + 1 });
       return;
     }
 
+    // Save user answers so far into local storage
+    localStorage.setItem(savedAnswersName, JSON.stringify(answers));
+    localStorage.setItem(savedQuestionIndexName, nextQuestionIndex);
+
     setCurrentQuestionIndex(nextQuestionIndex);
   };
-  const onSubmit = () => {
+  const onClickSubmit = () => {
     const { childrenPossession, numberOfChildren, ...userData } = answers;
     userData.numberOfChildren = Number(numberOfChildren) || 0;
 
@@ -76,9 +98,19 @@ const Questionnaire = ({ sendData, fetchRecommendations, history }) => {
       history.push('/result');
     };
 
+    localStorage.setItem(
+      savedAnswersName,
+      JSON.stringify(
+        Object.assign(
+          ...mainQuestions.map((question) => ({ [question.key]: '' })),
+        ),
+      ),
+    );
+    localStorage.setItem(savedQuestionIndexName, 0);
+
     sendData(userData, afterSendingUserData);
   };
-  const onClickActionButton = isLastQuestion ? onSubmit : onNext;
+  const onClickActionButton = isLastQuestion ? onClickSubmit : onClickNext;
 
   const getInput = () => {
     if (inputType === 'radio') {
@@ -122,7 +154,7 @@ const Questionnaire = ({ sendData, fetchRecommendations, history }) => {
         className='mainButton'
         onClick={onClickActionButton}
         disabled={!isValidInput()}
-        data-test="action-button"
+        data-test='action-button'
       >
         {actionButtonText}
       </button>
