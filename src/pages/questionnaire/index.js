@@ -88,6 +88,7 @@ const Questionnaire = ({ sendData, fetchRecommendations, history }) => {
             <div className='radioInputContainer' key={value}>
               <input
                 type='radio'
+                data-test={`${currentQuestionKey}-input-${value}`}
                 name={currentQuestionKey}
                 value={value}
                 onChange={(e) => onInputChange(e.target.value)}
@@ -104,6 +105,7 @@ const Questionnaire = ({ sendData, fetchRecommendations, history }) => {
         className='mainTextInput'
         placeholder={label}
         type={inputType}
+        data-test={`${currentQuestionKey}-input`}
         value={answers[currentQuestionKey]}
         onChange={(e) => onInputChange(e.target.value)}
       />
@@ -120,6 +122,7 @@ const Questionnaire = ({ sendData, fetchRecommendations, history }) => {
         className='mainButton'
         onClick={onClickActionButton}
         disabled={!isValidInput()}
+        data-test="action-button"
       >
         {actionButtonText}
       </button>
